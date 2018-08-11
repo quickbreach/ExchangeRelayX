@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>ExchangeRelayX</title>
+
+		<!-- Load JQuery & Anything else for AJAX/JSON api calls -->
+		<script src="/static/JS/jquery.min.js"></script>
+		<!-- The actual page logic -->
+		<script src="/static/JS/Control.js"></script>
+		<!-- Bootstrap for styles -->
+		<script src="/static/JS/popper.min.js"></script>
+		<script src="/static/JS/Bootstrap/js/bootstrap.min.js"></script>
+		<!-- Stylin -->
+		<link rel="stylesheet" href="/static/CSS/Bootstrap/css/bootstrap.min.css">
+		<!-- <link rel="stylesheet" href="Bootstrap/css/bootstrap-grid.css"> -->
+
+		<style>
+			body {
+				padding-top: 2rem;
+				padding-bottom: 2rem;
+			}
+
+			h3 {
+				margin-top: 2rem;
+			}
+
+			.row {
+				margin-bottom: 1rem;
+			}
+			.row .row {
+				margin-top: 1rem;
+				margin-bottom: 0;
+			}
+			[class*="col-"] 
+			{
+				padding-top: 1rem;
+				padding-bottom: 1rem;
+				background-color: rgba(86, 61, 124, .15);
+				border: 1px solid rgba(86, 61, 124, .2);
+			}
+
+			hr
+			{
+				margin-top: 2rem;
+				margin-bottom: 2rem;
+			}
+
+			td 
+			{
+				word-wrap: break-word !important;
+			}
+			table 
+			{
+				table-layout: fixed;
+			}
+			a:link
+			{
+				cursor: pointer;
+			}
+		</style>
+		<!-- <link rel="stylesheet" href="styles.css"> -->
+	</head>
+	<body>
+		<div class="container theme-showcase" role="main">
+			<div class="page-header">
+				<h1>ExchangeRelayX</h1>
+				<p class="lead">For when we can't be bothered to crack a password</p>
+			</div>
+			<h3 style="padding-left:0; margin-left: 0;">Popped Users</h3>
+			<div class="row">
+	          <table class="table table-striped" id="PoppedUsersTable" name="PoppedUsersTable">
+	            <thead>
+	              <tr>
+	                <th>Domain/Username</th>
+	                <th>Access EWS</th>
+	              </tr>
+	            </thead>
+	            <tbody id="#PoppedUsersTable_Data">
+	              
+	            </tbody>
+	          </table>
+        	</div>
+        	*Table refreshes every 8 seconds
+		</div>
+	</body>
+</html>

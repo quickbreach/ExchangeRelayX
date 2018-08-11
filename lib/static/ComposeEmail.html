@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>New Message</title>
+
+		<!-- Load JQuery & Anything else for AJAX/JSON api calls -->
+		<script src="/static/JS/jquery.min.js"></script>
+		<!-- Bootstrap for styles -->
+		<script src="/static/JS/popper.min.js"></script>
+		<script src="/static/JS/Bootstrap/js/bootstrap.min.js"></script>
+		<!-- Stylin -->
+		<link rel="stylesheet" href="/static/CSS/Bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/CSS/OWA.css">
+		<!-- <link rel="stylesheet" href="Bootstrap/css/bootstrap-grid.css"> -->
+		<!-- <link rel="stylesheet" href="styles.css"> -->
+		<script>
+			function check_data()
+			{
+				if($("#to_box").val() == '' && $("#cc_box").val() == '' && $("#bcc_box").val() == '')
+				{
+					alert("No recipients, cc'd, or bcc'd specified - can't send it");
+					return;
+				}
+				send_email(handle);
+			}
+			function handle(result)
+			{
+				if(result)
+				{
+					alert("Email sent! Note: it will NOT show in the sent folder");
+					window.close();
+				}
+				else
+				{
+					alert("Failed to send! Check the browser console for more info");
+					return;
+				}
+			}
+			function send_email(callback)
+			{
+
+				var email = {}
+				email['to_recipients'] 	= $("#to_box").val()
+				email['cc_recipients'] 	= $("#cc_box").val()
+				email['bcc_recipients'] = $("#bcc_box").val()
+				email['subject'] 		= $("#subject_box").val()
+				email['attachment'] 	= $("#attachfile").val()
+				email['body'] 			= $("#emailComposerPanel_Body").val()
+
+				$.ajax({ type: "POST", contentType: "application/json; charset=utf-8",  url: "sendEmail", data: JSON.stringify(email), dataType: "json", success: function(data)
+					{
+						callback(true);
+					}, error: function(data)
+					{
+						callback(false);
+						console.log("Failed to send email - : %o", data);
+					}
+				});
+			}
+		</script>
+	</head>
+		<div class="emailComposerPanel_Header">
+			<table>
+				<tr>
+					<td>To:</td><td class="long"><input type="text" class="recipients_box" placeholder="demo@example.org; otherPerson@example2.org" id="to_box" style="width: 700px"></td>
+				</tr>
+				<tr style="height:.5em"></tr>
+				<tr>
+					<td>CC:</td><td class="long"><input type="text" class="recipients_box" placeholder="demo@example.org; otherPerson@example2.org" id="cc_box" style="width: 700px"></td>
+				</tr>
+				<tr style="height:.5em"></tr>
+				<tr>
+					<td>BCC:</td><td class="long"><input type="text" class="recipients_box" placeholder="demo@example.org; otherPerson@example2.org" id="bcc_box" style="width: 700px"></td>
+				</tr>
+				<tr style="height:.5em"></tr>
+				<tr>
+					<td>Subject:</td><td class="long"><input type="text" class="recipients_box" id="subject_box" style="width: 700px"></td>
+				</tr>
+			</table>
+			<br>
+			Attach file (enter the full path to the file on the local system): <br><input type="text" id="attachfile" placeholder="/home/hacker/totallySafe.docm">
+			<br>
+			<br>
+			<button onclick="window.close()">Cancel</button>
+			
+			<button id="SendEmail_action" style="float: right;width: 200px;" onclick="check_data()">Send!</button>
+			<textarea rows="10" style="margin-top: 1em;width: 100%;padding-top: 1em; padding-bottom: 1em;" id="emailComposerPanel_Body" placeholder="<h1>Insert raw html here</h1>"></textarea>
+		</div>
+	</body>
+</html>

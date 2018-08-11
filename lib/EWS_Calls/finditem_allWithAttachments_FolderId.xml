@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Header>
+	<t:RequestServerVersion Version="REPLACE_EXCHANGE_VERSION" />
+</soap:Header>
+<soap:Body>
+	<m:FindItem Traversal="Shallow">
+		<m:ItemShape>
+			<t:BaseShape>IdOnly</t:BaseShape>
+		</m:ItemShape>
+		<m:IndexedPageItemView MaxEntriesReturned="REPLACE_MAX_ENTRIES" Offset="REPLACE_OFFSET" BasePoint="REPLACE_BASEPOINT" />
+		<m:Restriction>
+			<t:IsEqualTo>
+				<t:FieldURI FieldURI="item:HasAttachments" />
+				<t:FieldURIOrConstant>
+					<t:Constant Value="true" />
+				</t:FieldURIOrConstant>
+			</t:IsEqualTo>
+		</m:Restriction>
+		<m:ParentFolderIds>
+			<t:FolderId Id="REPLACE_PARENT_FOLDER_ID" ChangeKey="REPLACE_FOLDER_CHANGE_KEY" />
+		</m:ParentFolderIds>
+	</m:FindItem>
+</soap:Body>
+</soap:Envelope>
+

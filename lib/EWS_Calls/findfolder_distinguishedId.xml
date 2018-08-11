@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages" xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+<soap:Header>
+  <t:RequestServerVersion Version="REPLACE_EXCHANGE_VERSION" />
+</soap:Header>
+<soap:Body>
+  <FindFolder Traversal="Shallow" xmlns="http://schemas.microsoft.com/exchange/services/2006/messages">
+    <FolderShape>
+      <t:BaseShape>IdOnly</t:BaseShape>
+      <t:AdditionalProperties>
+          <t:FieldURI FieldURI="folder:DisplayName" />
+      </t:AdditionalProperties>
+    </FolderShape>
+    <m:IndexedPageFolderView MaxEntriesReturned="REPLACE_MAX_ENTRIES" Offset="REPLACE_OFFSET" BasePoint="REPLACE_BASEPOINT" />
+    <ParentFolderIds>
+      <t:DistinguishedFolderId Id="REPLACE_PARENT_FOLDER_NAME"/>
+    </ParentFolderIds>
+  </FindFolder>
+</soap:Body>
+</soap:Envelope>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>ExchangeRelayX</title>
+
+		<!-- Load JQuery & Anything else for AJAX/JSON api calls -->
+		<script src="/static/JS/jquery.min.js"></script>
+		<!-- The actual page logic -->
+		<script src="/static/JS/EWS.js"></script>
+		<!-- Bootstrap for styles -->
+		<script src="/static/JS/popper.min.js"></script>
+		<script src="/static/JS/Bootstrap/js/bootstrap.min.js"></script>
+		<!-- Stylin -->
+		<link rel="stylesheet" href="/static/CSS/Bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/CSS/OWA.css">
+		<!-- <link rel="stylesheet" href="Bootstrap/css/bootstrap-grid.css"> -->
+		<!-- <link rel="stylesheet" href="styles.css"> -->
+	</head>
+	<body>
+		<div class="loader"></div>
+		<div id="attachmentDownloadPanel" style="display: none;">
+			<h3>Download attachment</h3>
+			<form action="#" id="attachmentDownloadForm">
+				<p>Specify file destination</p>
+				<input type="text" id="download_form_outputFolder" placeholder="/home/demo/downloads/OutputFolder/">
+				<input style="display: none;" type="text" id="download_form_attachmentID">
+				<br />
+				<button id="attachmentDownloadForm_Submit" style="margin-top: 1em;" onclick="download_attachment(); return false;">Download!</button>
+				<button id="attachmentDownloadForm_Cancel" style="margin-left: 8em;" onclick="resetDownloadAttachmentForm(); return false;">Cancel</button>
+			</form>
+		</div>
+		<!-- Fixed navbar -->
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		  <a class="navbar-brand" href="/Control.html">ExchangeRelayX</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" id="Mailbox_nav" href="#">Mailbox<span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" id="AddressBook_nav" href="#">Address Book</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" id="massExportation_nav" href="#">Mass Exportation Tools</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" id="rawXMLTab" href="#">Raw XML Interface</a>
+		      </li>
+		    </ul>
+		    <span class="navbar-text" id="usernameNotice">
+			</span>
+		  </div>
+		</nav>
+
+		<!-- This is the traditional owa looking panel, with the folders on the left, the email column, and the reading pane on the right -->
+		<div class="container-fluid" id="emailViewPanel">
+	    	<div class="row h-100">
+		    		<!-- Everything related to the far left column, the folders column -->
+					<div class="col-sm-2" style="background: #FCFAFB; padding-right: 0;">
+						<!--Compose email button -->
+						<button id="composeNewEmail_action" style="margin: 0 auto; margin-top:.5em; margin-bottom: .5em; width: 95%;">Compose Email</button>
+						<br /r>
+
+						<!-- All of the mailbox folders -->
+						<div style="border-bottom: 1px solid;margin-bottom: .5em;"><strong>Folders</strong></div>
+						<ul class="firstLevelIndent">
+							<li folder="inbox" itemUUID="rootInbox" class="viewMail_Distinguished_action selected">Inbox</li>
+							<ul class="secondLevelIndent">
+							</ul>
+							<li class="viewMail_Distinguished_action" itemUUID="rootDrafts" folder="drafts">Drafts</li>
+							<ul class="secondLevelIndent">
+							</ul>
+							<li class="viewMail_Distinguished_action" itemUUID="rootSent" folder="sentitems">Sent</li>
+							<ul class="secondLevelIndent">
+							</ul>
+							<li class="viewMail_Distinguished_action" itemUUID="rootDeleted" folder="deleteditems">Deleted Items</li>
+						</ul>
+					</div>
+					<!-- Done with this column -->
+
+					<!-- Everything related to the center column of emails -->
+					<div class="col-sm-3 emailListParent">
+						<!--
+						<div id="columnToolBox" style="height: 65px;">
+							<input type="text" name="emailSearch" id="emailSearch" placeholder="Search term (press enter to execute)" style="width: 95%; margin-left: 5px; margin-right: 5px;">
+							<input type="checkbox" id="attachmentOnlySearch" style="margin-left:10px;">Search: Only show results with attachments</input>
+						</div>
+						-->
+						<div id="emailList">
+							<div id="EmptyResults" style="display:none;">
+								<i>Folder is empty</i>
+							</div>
+							<a href="#"><div id="Load250More" style="display:none;">Load 250 more from server</div></a>
+						</div>
+					</div>
+						<!--Done with this column-->
+
+					<!-- Everything related to the reading pane -->
+					<div class="col-6" id="emailContentHolder">
+					</div>
+					<!--Done with this column-->
+			</div>
+		</div>
+		<!-- /End of panel -->
+
+		<!-- This is the contactView panel -->
+		<div class="container-fluid" id="contactViewPanel" style="display: none;">
+	    	<div class="row h-100" style="overflow-y: scroll;">
+				<div class="col-sm-2 contactListParent" style="background: grey; border-right: 1px solid black">
+					<input type="text" id="contactSearch" placeholder="Search" style="width: 95%; margin-left: 5px; margin-right: 5px;margin-top: 1em;">
+					<button id="contactSearch_submitButton" style="width: 95%; margin-left: 5px; margin-right: 5px;margin-top: 1em;">Search</button>
+					<p style="background: white; border: 1px solid white; border-radius: 5px; margin-top: 3em;">This form abuses the <a target="_blank" href="https://docs.microsoft.com/en-us/exchange/client-developer/web-service-reference/resolvenames-operation">ResolveNames</a> function, which only returns a maximum of 100 results</p>
+				</div>
+				<div class="col-sm-10" id="contactContentHolder">
+				</div>
+			</div>
+		</div>
+		<!-- /End of panel -->
+
+
+		
+		<div class="container-fluid" id="massExportationTools" style="overflow-y: scroll; width: 100%; display: none;">
+			<div class="massExportationTools_holder" style="padding:1em; margin: 0 auto;margin-bottom: 10em;">
+				<div style="width: 80%; ">
+					<h3>Mass Exportation Tools</h3>
+					<ul>
+						<div style="background: grey;padding: 1em; border:1px solid; border-radius: 5px;">
+							<button id="exportAllAttachments">Download all attachments</button>
+							<br /r>
+							<input type="text" id="exportAttachmentsOutputFile" placeholder="/home/hacker/outputDirectory/" style="width: 500px; margin-top:1em;margin-bottom: 1em;" />
+							<br /r>
+						</div>
+						<div style="background: grey;padding: 1em; border:1px solid; border-radius: 5px;margin-top: 1em;">
+							<button id="exportAddressBook">Scrape & Export Address Book to XML</button>
+							<br /r>
+							<input type="text" id="exportAddressBookDirectory"placeholder="/home/hacker/outputDirectory/" style="width: 500px; margin-top:1em;margin-bottom: 1em;" />
+							<br /r>
+						</div>
+						<div style="background: grey;padding: 1em; border:1px solid; border-radius: 5px;margin-top: 1em;">
+							<input type="text" id="addRedirectRule_name" placeholder="nameOfRule" style="width: 250px; margin-top:1em;margin-bottom: 1em;" />
+							<br /r><span style="color: #FFFFFF;">Email address to recieve copies of victim's emails</span><br /r>
+							<input type="text" id="addRedirectRule_target" placeholder="badGuy@seemsLegit.com" style="width: 250px; margin-top:1em;margin-bottom: 1em;" />
+							<br /r>
+							<button id="addRedirectRule">Backdoor inbox with a 'redirect' rule (does not show up in sent!)</button>
+						</div>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!-- /End of panel -->
+
+		<div class="container-fluid" id="rawXMLInterfacePanel" style="overflow-y: scroll; width: 100%; display: none">
+			<div class="xmlSenderHolder" style="padding:1em; width: 1000px; margin: 0 auto;margin-bottom: 10em;">
+				<label>Use the EWS docs to your advantage: <a target="_blank" href="https://docs.microsoft.com/en-us/exchange/client-developer/web-service-reference/ews-operations-in-exchange">https://docs.microsoft.com/en-us/exchange/client-developer/web-service-reference/ews-operations-in-exchange</a></label>
+				<h4>Request: </h4>
+				<textarea rows="15" style="width:100%" id="xmlRequest"></textarea>
+				<br>
+				<button id="SendXML_action" style="height: 40px; width: 100%;">Send!</button>
+				<h4>Response:</h4>
+				<textarea readonly rows="15" id="xmlResponse" style="background: #DDDDDD; width: 100%;"></textarea>
+			</div>
+		</div>
+		<!-- /End of panel -->
+
+	</body>
+</html>
+
+

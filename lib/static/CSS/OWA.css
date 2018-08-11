@@ -1,0 +1,409 @@
+* {
+	overflow: hidden;
+}
+#attachmentDownloadPanel
+{
+	position: absolute;
+	width: 500px;
+	height: 200px;
+	top:25%;
+	left: 25%;
+	background: #bfbfbf;
+	z-index: 999999;
+
+	border-radius: 5px;
+	border: 1px solid grey;
+
+
+	padding: 1em;
+}
+#download_form_outputFolder
+{
+	width: 100%;
+}
+.loader {
+	display: none;
+    border: 16px solid #212529; /* Dark grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    z-index: 9999;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+.marked_important
+{
+	background: #ff7a7e;
+	margin-right: 1em;
+	padding-left:1em; 
+	border:1px solid #ff7a7e; 
+	border-radius: 5px; 
+	font-weight: bold;
+}
+.marked_low
+{
+	background: #b7d2ff;
+	margin-right: 1em;
+	padding-left:1em; 
+	border:1px solid #b7d2ff; 
+	border-radius: 5px;
+}
+.attachment_container
+{
+	background: #d1d1d1;
+	margin-right: 1em;
+	padding-left:1em; 
+	border:1px solid #d1d1d1; 
+	border-radius: 5px;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+*
+{
+	overflow: hidden;
+	position: relative;
+	z-index: 0;
+
+}
+
+.e_label
+{
+	width: 100px;
+	float: left;
+}
+a:link
+{
+	cursor: pointer;
+}
+button
+{
+	cursor: pointer;
+}
+#usernameNotice
+{
+	color: white;
+}
+.nav-link:hover, .nav-item:hover
+{
+	/*background: green;*/
+	color: white;
+	background: #727272 !important;
+	border-radius: 5px;
+}
+ul.firstLevelIndent
+{
+	padding: 0;
+}
+ul > li
+{
+	cursor: pointer;
+}
+li.selected, div.selected
+{
+	background: #9ce1f4;
+}
+ul.secondLevelIndent
+{
+	padding: 0;
+	margin-left:30px;
+}
+ul.secondLevelIndent > li
+{
+	cursor: pointer;
+}
+li:not(.selected):hover
+{
+	background: #efefef;
+}
+li:selected
+{
+	background: blue;
+}
+html, body
+{
+	height: 100%;
+}
+.container-fluid
+{
+	height: 100%;
+	min-height: 100%;
+}
+.emailListParent
+{
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	padding-left: 0;
+	padding-right: 0;
+}
+#emailSearch
+{
+	width: 100%;
+	margin-top: .5em;
+	margin-left: 0;
+	margin-right: 0;
+}
+#emailList
+{
+	border-top: 1px solid black;
+	overflow-y: scroll;
+	height: 100%;
+	padding-bottom: 10em;
+}
+.emailListBox
+{
+	height: 72px;
+	width: 100%;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.emailListBox:not(.selected):hover
+{
+	background: #efefef;
+}
+
+.emailListBox_Parent
+{
+	width: 100%;
+	margin-top:1em;
+	margin-left:1em;
+	border-bottom: 1px solid black;
+}
+.emailHeaderInfo
+{
+	margin-bottom: .25em;
+	margin-right: 1em;
+}
+.emailListBox_Sender
+{
+	float: left;
+	padding-left: 5px;
+	font-size: 12pt;
+	float: left;
+}
+.emailListBox_Date
+{
+	width: 60%;
+	float: right;
+	overflow: hidden;
+	font-size: 10pt;
+	color: grey;
+}
+.emailListBox_Copied
+{
+	width: 50%;
+	padding-left: 5px;
+	font-size: 12pt;
+	float: left;
+}
+
+.emailListBox_Importance
+{
+	padding-left: 5px;
+	font-size: 11pt;
+	width: 150px;
+	float: left;
+	color:red;
+}
+.emailListBox_Attachment
+{
+	padding-left: 5px;
+	font-size: 11pt;
+	width: 30%;
+}
+.emailListBox_Subject
+{
+	padding-left: 5px;
+	padding-bottom: 5px;
+	font-size: 12pt;
+	width: 100%;
+}
+.emailListBox:nth-child(even)
+{
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background: ;
+}
+.emailListBox:last-child
+{
+	border-bottom: 1px solid black;
+}
+
+.contactListBox
+{
+	height: 80px;
+	width: 100%;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+#emailContentHolder
+{
+	width: 100%;
+	padding: 0;
+}
+#rawEmailData_holder
+{
+	overflow-y: auto;
+	overflow-x: auto;
+}
+.emailContent_Body
+{
+	margin-top:1em;
+	margin-left:1em;
+	height: 65%;
+	overflow-y: auto;
+	overflow-x: auto;
+}
+
+#emailComposerPanel
+{
+
+}
+.emailComposerPanel_Header
+{
+	padding: 1em;
+}
+td{
+	padding-bottom: 1em;
+}
+td.long{
+	width: 95%;
+	padding-left: 1em;
+}
+td.long > input[type=text]{
+	width: 100%;
+}
+.emailComposerPanel_Header > input[type=text] 
+{
+	width: 100%;
+	margin-bottom: .5em;
+}
+#emailComposerPanel_Body
+{
+	text-align: left;
+	width: 100%;
+	height: 350px;
+	font-size: 12pt;
+	padding-left: 1em;
+}
+#Load250More, #EmptyResults
+{
+	width: 100%;
+	text-align: center;
+	cursor: pointer;
+}
+
+
+#contactContentHolder
+{
+	margin:0;
+	width: 100%;
+    padding-bottom: 30em;
+    overflow-y: scroll;
+}
+.contactListBox
+{
+	width: 100%;
+	background: #f2f2f2;
+	height: 150px;
+}
+.contactListBox:nth-child(even)
+{
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+.contact_basics
+{
+	width: 400px;
+	/*height: 200px;*/
+	float: left;
+	padding-right: 5px;
+}
+.contact_basics > table, tr, td
+{
+	margin: 0;
+	padding: 0;
+	padding-left: 5px;
+	height: 18px;
+}
+.contact_addresses
+{
+	border-left: 1px solid black;
+	width: 200px;
+	height: 100%;
+	float: left;
+	font-size: 12pt; 
+}
+.contact_phoneNumbers
+{
+	border-left: 1px solid black;
+	width: 200px;
+	height: 100%;
+	background: #f2f2f2;
+}
+
+/* CSS Slider from w3schools */
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .2s;
+  transition: .2s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
