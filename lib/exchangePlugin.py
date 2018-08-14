@@ -51,18 +51,20 @@ class ExchangePlugin(HTTPAttack):
 			except:
 				pass
 			logging.info("Lost relay for " + self.username + " :( - " + str(e))
-
-			if(self.username in self.config.PoppedDB.keys()):
-				self.config.PoppedDB_Lock.acquire()
-				try:
-					if(self.username in self.config.PoppedDB.keys()):
-						del(self.config.PoppedDB[self.username])
-					self.config.PoppedDB_Lock.release()
-				except:
+			try:
+				if(self.username in self.config.PoppedDB.keys()):
+					self.config.PoppedDB_Lock.acquire()
 					try:
+						if(self.username in self.config.PoppedDB.keys()):
+							del(self.config.PoppedDB[self.username])
 						self.config.PoppedDB_Lock.release()
 					except:
-						pass
-			if(self.config.PoppedDB_Lock.locked()):
-				self.config.PoppedDB_Lock.release()
+						try:
+							self.config.PoppedDB_Lock.release()
+						except:
+							pass
+				if(self.config.PoppedDB_Lock.locked()):
+					self.config.PoppedDB_Lock.release()
+			except Exception, e:
+				exit(0)
 			# This exits the 'run' function, killing the thread

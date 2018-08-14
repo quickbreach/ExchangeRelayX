@@ -28,7 +28,7 @@ def parseCommandLine():
 	parser._optionals.title = "Standard arguments"
 	parser.add_argument('-t', metavar='targeturl', type=str, help='The target base url - typically the one hosting owa (eg. https://mail.vulncorp.com/)', required=True)
 	parser.add_argument('-c', action="store_true", default = None, help='Check if the target supports NTLM authentication, and then exit')
-	parser.add_argument('-o', '--outfile', action="store_true", default = None, help='Store captured hashes in the provided file')
+	parser.add_argument('-o', '--outfile', metavar="HASHES.txt", default = None, help='Store captured hashes in the provided file')
 	parser.add_argument('-l', metavar="IP", default = "127.0.0.1", help='Host to serve the hacked OWA web sessions on (default: 127.0.0.1)')
 	parser.add_argument('-p', metavar="port", default = 8000, help='Port to serve the hacked OWA web sessions on (default: 8000)')
 	args = parser.parse_args()
