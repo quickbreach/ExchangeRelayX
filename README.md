@@ -2,7 +2,7 @@
 Version 1.0.0. This tool is a PoC to demonstrate the ability of an attacker to perform an SMB or HTTP based NTLM relay attack to the EWS endpoint on an on-premise Microsoft Exchange server to compromise the mailbox of the victim. This tool provides the attacker with an OWA looking interface, with access to the user's mailbox and contacts.
 
 # Background
-Released at Defcon26. View the background on the tool, the core issues being exploited, and a recorded demo here: https://www.quickbreach.io/one-click-to-owa/
+Released at Defcon26. View the background on the tool, the core issues being exploited, and a recorded demo here: https://blog.quickbreach.io/one-click-to-owa/
 
 # Installation
 	pip install -r requirements.txt
