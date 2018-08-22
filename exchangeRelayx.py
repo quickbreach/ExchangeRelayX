@@ -51,7 +51,6 @@ def checkNTLM(url):
 	except Exception, e:
 		logging.error("[checkNTLM] " + str(e))
 
-#def startServers(targetURL, hashOutputFile = None, serverIP = "127.0.0.1", serverPort = 8000, interface):
 def startServers(targetURL, interface, hashOutputFile = None, serverIP = "127.0.0.1", serverPort = 8000):
 	PoppedDB		= Manager().dict()	# A dict of PoppedUsers
 	PoppedDB_Lock	= Lock()			# A lock for opening the dict
